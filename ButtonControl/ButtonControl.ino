@@ -21,6 +21,7 @@ int SEL_RES = 742;
 int oldSensorValue = 0;
 int buffer = 5;
 String buttonText = "";
+
 void setup() {
   // initialize serial communication at 9600 bits per second:
 
