@@ -22,12 +22,14 @@ int oldSensorValue = 0;
 int buffer = 5;
 String buttonText = "";
 
+boolean displayToggle = true;
 void setup() {
   // initialize serial communication at 9600 bits per second:
 
   Serial.begin(9600);
   lcd.begin(16,2);
   lcd.setCursor(0,0);
+  
 }
 
 
@@ -37,15 +39,38 @@ void loop() {
   int sensorValue = analogRead(A0);
   // print out the value you read:
     delay(10);
-      
+  
   if(sensorValue != 1023){
  //   oldSensorValue = sensorValue;
     buttonText = readButton(sensorValue);
     lcd.clear();
     lcd.setCursor(0,0);
     lcd.print(buttonText);
-    delay(100); 
+    if(buttonText == "Select"){
+      toggleDisplay();
+    }
+      
+    delay(100);
+    
   }
+}
+void toggleDisplay(){
+  displayToggle = !displayToggle;
+  int i;
+
+  if(displayToggle){
+      for(i = 0 ; i < 256; i++){
+        analogWrite(3, i);        
+        delay(4);
+      }     
+   }
+   else{
+      for(i = 255; i > 0; i--){
+        analogWrite(3, i);        
+        delay(4);
+      }     
+   }
+     
 }
 String readButton(int value){
   if(value < UP_RES + buffer && value > UP_RES - buffer){
